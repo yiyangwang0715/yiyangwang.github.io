@@ -1,0 +1,245 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Covid - Editorial by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="index.html" class="logo"><strong>GA project</strong> by Yiyang</a>
+									<ul class="icons">
+										
+										<li><a href="https://www.facebook.com/profile.php?id=100010881825806" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+										<li><a href="https://www.snapchat.com/add/yiyangwang2019" class="icon brands fa-snapchat-ghost"><span class="label">Snapchat</span></a></li>
+										<li><a href="https://instagram.com/eyon0715?igshid=zhrjk5ve768g" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+										<li><a href="https://www.linkedin.com/in/yiyangwang0715/" class="fab fa-linkedin-in"><span class="label"></a></li>
+										
+									</ul>
+								</header>
+
+							<!-- Content -->
+								<section>
+									<header class="main">
+										<h1>Google Analytics Customer Revenue Prediction</h1>
+										<h2>(Using R, MS Excel, Tableau)</h2>
+									</header>
+
+									
+									<a href="#" class="image"><img src="images/google.jpg" width="50%" /></a>
+									<br>
+									<h3>The 80/20 rule has proven true for many businesses–only a small percentage of customers produce most of the revenue. As such, marketing teams are challenged to make appropriate investments in promotional strategies.</p>						
+				
+									<a href="https://github.com/yiyangwang0715" class="button big">Click to check out the codes</a>									<a href=""></a>
+									<a href="https://www.scribd.com/document/478502953/Google-Analytics-Customer-Revenue-Prediction-pdf" class="button big">Click to check out the full report</a>									<a href=""></a>
+									<hr class="major" />
+
+									<h2>Introduction</h2>
+								
+									
+								
+									<h3>The goal of our analysis was twofold. Our first objective was to identify factors or customer
+										behaviors that rendered customers more likely to make a purchase. 
+										Our second goal was
+										developing accurate predictions of transaction revenue based on our findings from the first
+										objective.</h3>
+										<h4>The data was collected from 2016 to 2017, train dataset (903,653 observations and 55 variables) dataset are given in JSON string and test dataset (804,684 observations and 53 variables) is used for revenue predictions.<p>Thus, we decided to use a logistic regression
+										model to determine the most important variables in predicting purchase probability. Then followed this model with a semi-log linear regression to predict transaction revenue .</P>
+
+										<hr class="major" />
+
+										<h2>Data Cleaning</h2>
+
+									
+									<img src="images/pic05.jpg" width="80%" />
+									<p></p>
+									<h4>The JSON data looks messy so we split the JSON strings into different attributes.<p>Our team decided which variables could be removed from the dataset given
+										their level of integrity.</h4>
+
+									 <li>Removing missing values: This was a substantial task in our cleaning process. We
+										deleted variables if they contained over 90% missing values, including detailed features
+										of browser, operating system, mobile devices, latitudes, longitudes, and network location,
+										etc.</li>
+										<li> Deletion of duplicate session IDs: The session ID should be unique. As a result, we
+										deleted ~1000 duplicate session IDs in our dataset.</li>
+										<li>Deletion of records with missing geographical information: We deleted records with
+											missing values in all geographical information.</li> 
+										<li>Recode into dummy: we keep top 4 or 5 levels, and combine small numbers into level ‘other’, large number of NA set into another level(city, time, etc)</li>										
+										<li>Time conversion: We leveraged Google API to calculate longitudes and latitudes based
+											on city-level and converted the start time of each session into its local time zone.</li>
+										<li>Log transformation: Since transaction revenue does not follow the normal distribution,
+											we did a log transformation on this variable.</li>
+									<br>
+									<h4>The train dataset contains more than half a million observations. To train and evaluate models
+										efficiently, we randomly took 75% of the dataset as the train dataset, and input the remaining
+										25% into the validation dataset.</h4>
+									<h4>Variable Selection: We had to conduct preliminary variable selection to
+										determine what would be included.</h4>
+									<li>Removing Multicollinearity: Variables that were highly correlated with each other would
+										have a negative impact on our models. Therefore, we made decisions on keeping and
+										removing variables whose VIF exceeds 10, such as hits</li> 
+										<li>Removing insignificant factors: During the modeling process, we removed factors whose
+										levels don’t have statistical significance, meaning their p-values exceed a 0.05
+										significance level</li>
+										<li>Removing factors that contradict domain knowledge: In our model, some factors are
+										significant, but their explanations of coefficients go against our domain knowledge.</li>
+									<hr class="major" />
+
+									<h2>Exploratory Data Analysis</h2>
+									<img src="images/pic06.jpg" width="60%" />
+									<h4>Detailed Tableau Dashboard In the Report</h4>
+									<li>It showed that if a customer is a return customer, it is more likely he or she will generate approximately 35% more revenue compared to new customers.<li>What’s more, in consistent with our analysis before, for channel, if a customer are accessing our website through Display channel, 65% more revenue are stimulated compared to people who are from organic search. <li>Morning is our peak hour here, 29% more revenue comes from people who browse in the morning in contrast to the one who browse in the evening.</li>
+									<li>One more interesting finding, Mac OS tends to attracts more customer, 9.5% more revenues brought by people who uses mac os compared to people who use chrome os. 
+									<li>Compared with people who lives in other areas, people who are in the metro area developed 13% more revenues for us. 									</p>
+									
+									<hr class="major" />
+
+									<h2>Logistic Regression and Semi-log Linear Regression</h2>
+									<img src="images/pic07.jpg" width="90%" />
+									<h4>Before modeling, we put all variables left into model to check multicollinearity and removed variables with high VIF</h4>
+									<h4>Logistic Regression for Purchase Incidence</h4>
+									
+									<li>We concluded the higher the number of pages viewed per session, the higher the
+										probability of purchase based on the positive coefficient of pageviews. Keeping other
+										factors constant, when one more page is viewed, the odds of purchase will increase by
+										8.7%. By contrast, if the visitor is new to the site, his/her probability of purchase will be
+										notably lower than a return customer, with the odds decreasing by 57.4%.
+										<li>For the geographic elements, Americas and part regions have strong effects on purchase
+											incidence. Customers living in metropolitan areas are less likely to make purchases
+											compared to those who are not, with a 10.6% decrease in odds. Similarly, the continents
+											are a decided element, the odds of purchase will be 2037 % higher when the location is in
+											America.
+										<li>The channel grouping indicates how visitors approach the website. Compared to organic
+											search, visitors from paid search channels are more likely to have transactions, and the
+											odds of making a purchase are 24.7% higher. Similarly, referral and direct are more
+											effective channels compared to organic search, with 88.8% and 58.6% higher in odds
+											respectively. Conversely, the visitors from affiliate and display channels have lower odds
+											of purchase, respectively 2.5% and 85.2% lower than if visiting via organic search.
+										<li>The browsers show traffic of visitors from different devices. Among the types of
+											browsers, visitors who use Chrome have higher purchase probability. The odds of making
+											a purchase will be 89.2% higher compared to those who use other kinds of browsers.
+											Visitors who use Internet Explorer show a similar higher tendency, and the odds will be
+											94.5% higher.
+										<li>Time is another influential element. Compared with the evening, at midnight people have
+											a lower purchase incidence, and the odds of making a purchase will be 45.4% lower.</li></p>
+											<img src="images/pic08.jpg" width="50%" />
+										<h4>Linear Regression for Prediction</h4>
+										<li>We concluded that higher pageviews per session resulted in higher transaction revenue.
+											Keeping other factors constant, if one more page is viewed, the purchase revenue will
+											increase by 1.7%.</li>
+										<li>Loyalty Customers have higher transaction revenues. if a customer is returning, it is
+											likely he or she will generate approximately 35% more revenue compared to new
+											customers.</li>
+										<li>The higher visit number of that visiting session, the higher transaction revenue. Keeping
+											other factors constant, if one increases in visit number, the purchase revenue will increase
+											by 1.1%.</li>
+										<li>Morning is the peak hour - 29% more revenue comes from people who browse in the
+											morning in contrast to those who browse in the evening.</li>
+										<li>People who live in metropolitan areas tend to purchase more. Compared with people
+											who live in more rural areas, people who are in the metro area contributed 13% more
+											revenue.</li>
+											<hr class="major" />
+
+											<h2>Conclusion and Recommendations</h2>
+											<li>1. The management team should allocate more resources for referral and display
+												channels. This may include developing a customer loyalty program or crafting more
+												engaging emails to boost interest. With regard to the loyalty program, inclusion of special
+												discounts/credits conditional on the customer making a purchase may further incentivize
+												them to buy from the retailer.
+											<li>2. When considering display advertisements, it is highly recommended that management
+												further invest in making these ads more appealing.
+											<li>3. Another consideration is the optimization of the retailer’s site for both desktop and
+												mobile devices. Creating a user-friendly interface is especially important for online
+												retailers, as the functionality and aesthetic appeal of their site may promote increased
+												purchases.
+											<li>Lastly, we recommend that the retailer commit to higher promotion and advertising
+												during the site’s peak time. Our analysis indicated that morning is peak time for this
+												retailer, meaning management should run more ads at this time of day to encourage
+												purchases.</li></p>
+											<h4>Limitation: After analyzing the findings mentioned above, we believe there is an
+												opportunity for research on geographical information, keywords, and medium to see
+												whether they would influence consumer purchase decision and purchase quantity.</h4>
+										
+										
+								</section>
+
+						</div>
+					</div>
+
+	<!-- Sidebar -->
+	<div id="sidebar">
+		<div class="inner">
+
+
+		<!-- Menu -->
+		<nav id="menu">
+			<header class="major">
+				<h2>Yiyang Wang</h2>
+			</header>
+			<ul>
+				<li><a href="index.html">Home</a></li>
+				<li>
+					<span class="opener">Projects</span>
+					<ul>
+								<li><a href="project1.html">NLP Analysis of Tweets: Propose Strategic Government Response to Covid-19 </a></li>
+								<li><a href="project2.html">Customer Revenue Prediction: Google Online Store</a></li>
+								<li><a href="project3.html">Cell2Cell Case Analysis</a></li>
+								<li><a href="project4.html">Airbnb Superhost Analysis</a></li>
+								<li><a href="project5.html">Pricing Strategy for Tropicana</a></li>
+								<li><a href="project6.html">Printed Ad Optimization </a></li>
+
+							</ul>
+						</li>
+						<li><a href="moreaboutme.html">More About Me</a></li>
+						<li><a href="resume.html">Resume</a></li>
+					</ul>
+				</nav>
+			
+
+
+							<!-- Section -->
+								<section>
+									<header class="major">
+										<h2>Get in touch</h2>
+									</header>
+									<p>Have a question? </p>Feel free to share your thoughts with me</p>									<ul class="contact">
+										<li class="icon solid fa-envelope"><a href="#">yiyang.wang@marylandsmith.umd.edu</a></li>
+										<li class="icon solid fa-phone">(240) 667-6760</li>
+
+									</ul>
+								</section>
+
+							<!-- Footer -->
+								<footer id="footer">
+									<p class="copyright">&copy; Untitled. All rights reserved. Demo Images: <a href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+								</footer>
+
+						</div>
+					</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
